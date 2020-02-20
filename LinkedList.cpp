@@ -191,50 +191,54 @@ bool LinkedList::isSorted()
 
 void LinkedList::sort()
 {
-    Node* firstPoint;
-    Node* secondPoint;
+    Node* lastPoint = this->head;
+    Node* currPoint = lastPoint->getNextNode();
+    Node* tempPoint = currPoint->getNextNode();
+    Node* followTheLast = lastPoint;
     while(isSorted() == false)
     {
-        firstPoint = this->head->getNextNode();
-        secondPoint = this->head;
-        for(int j = 0; j<this->count-1; j++)
+        for(int j = 0; j<=this->count; j++)
         {
-            if (firstPoint->getPayload()<secondPoint->getPayload())
+            if(this->head->getPayload()>currPoint->getPayload())
             {
-                Node* tempNode = new Node(firstPoint->getPayload());
-                secondPoint->setNextNode(firstPoint->getNextNode());
-                firstPoint->setNextNode(0);
-                if(secondPoint==this->head)
-                {
-                    addFront(tempNode->getPayload());
-                }
-                else
-                {
-                    addAtIndex(getIndex(j-1), tempNode->getPayload());
-                }
-                //removeIndex(getIndex(j));
-                this->count--;
-                firstPoint = this->head->getNextNode();
-                secondPoint= this->head;
-                j=0;
+                currPoint->setNextNode(lastPoint);
+                lastPoint->setNextNode(tempPoint);
+                this->head = currPoint;
+                //resets pointers
+                lastPoint = this->head;
+                currPoint = lastPoint->getNextNode();
+                tempPoint = currPoint->getNextNode();
+            }
+            //The following code will be in a loop
 
-            }
-            else
+            for(int i = 0; i<=this->count-j; i++)
             {
-                std::cout<<"count: "<< this->count<<"\n";
-                std::cout<<"Before payload: "<< secondPoint->getPayload()<<"\n";
-                std::cout<<"Current payload: "<< firstPoint->getPayload()<<"\n";
-            }
-
-            if (firstPoint->getNextNode()!=0)
-            {
-                firstPoint = firstPoint->getNextNode();
-                secondPoint = secondPoint->getNextNode();
-            }
+                if(currPoint->getPayload() > tempPoint->getPayload())
+                {
+                    //performs swap
+                    lastPoint->setNextNode(tempPoint);
+                    currPoint->setNextNode(tempPoint->getNextNode());
+                    tempPoint->setNextNode(currPoint);
+            
+                    //resets pointers
+                    lastPoint = followTheLast;
+                    currPoint = lastPoint->getNextNode();
+                    tempPoint = currPoint->getNextNode();
+                }
+                //Progress pointers
+                if(tempPoint->getNextNode()!=0)
+                {
+                    lastPoint = lastPoint->getNextNode();
+                    currPoint = currPoint->getNextNode();
+                    tempPoint = tempPoint->getNextNode();
+                    followTheLast = lastPoint;
+                }   
+            } 
+            lastPoint = this->head;
+            currPoint = lastPoint->getNextNode();
+            tempPoint = currPoint->getNextNode(); 
         }
-        std::cout<<"is sorted? "<< isSorted() <<"\n";
     }
-
 }
 
 void LinkedList::display()
