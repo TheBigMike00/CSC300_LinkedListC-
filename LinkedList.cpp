@@ -170,6 +170,73 @@ int LinkedList::getIndex(int index)
     return traverse->getPayload();
 }
 
+bool LinkedList::isSorted()
+{
+    Node* first = this->head->getNextNode();
+    Node* second = this->head;
+    for(int i = 0; i<this->count-1; i++)
+    {
+       if(first->getPayload()>second->getPayload())
+       {
+           first = first->getNextNode();
+           second = second->getNextNode();
+       }
+       else if (first->getPayload()<second->getPayload())
+       {
+           return false;
+       }
+    }
+    return true;
+}
+
+void LinkedList::sort()
+{
+    Node* firstPoint;
+    Node* secondPoint;
+    while(isSorted() == false)
+    {
+        firstPoint = this->head->getNextNode();
+        secondPoint = this->head;
+        for(int j = 0; j<this->count-1; j++)
+        {
+            if (firstPoint->getPayload()<secondPoint->getPayload())
+            {
+                Node* tempNode = new Node(firstPoint->getPayload());
+                secondPoint->setNextNode(firstPoint->getNextNode());
+                firstPoint->setNextNode(0);
+                if(secondPoint==this->head)
+                {
+                    addFront(tempNode->getPayload());
+                }
+                else
+                {
+                    addAtIndex(getIndex(j-1), tempNode->getPayload());
+                }
+                //removeIndex(getIndex(j));
+                this->count--;
+                firstPoint = this->head->getNextNode();
+                secondPoint= this->head;
+                j=0;
+
+            }
+            else
+            {
+                std::cout<<"count: "<< this->count<<"\n";
+                std::cout<<"Before payload: "<< secondPoint->getPayload()<<"\n";
+                std::cout<<"Current payload: "<< firstPoint->getPayload()<<"\n";
+            }
+
+            if (firstPoint->getNextNode()!=0)
+            {
+                firstPoint = firstPoint->getNextNode();
+                secondPoint = secondPoint->getNextNode();
+            }
+        }
+        std::cout<<"is sorted? "<< isSorted() <<"\n";
+    }
+
+}
+
 void LinkedList::display()
 {
     Node* currNode = this->head;

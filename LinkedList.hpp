@@ -24,6 +24,8 @@ class LinkedList
         void addAtIndex(int index, int payload);
         int getIndex(int index);
         int removeIndex(int index);
+        void sort();
+        bool isSorted();
 
     };
 #endif /* LinkedList_hpp */

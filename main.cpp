@@ -1,19 +1,29 @@
 #include "LinkedList.hpp"
 #include <iostream>
+#include <ctime>
 
 int main()
 {
+    std::srand(std::time(nullptr));
+
     LinkedList* mylist = new LinkedList();
     std::cout<<"Initial List: "<<"\n";
     mylist->addFront(1);
-    mylist->addFront(2);
-    mylist->addFront(3);
-    mylist->addFront(4);
+    mylist->addEnd(2);
+    mylist->addEnd(4);
+    mylist->addEnd(3);
+    mylist->addEnd(5);
+    mylist->addEnd(6);
+    mylist->addEnd(7);
+    mylist->addEnd(8);
+    mylist->addEnd(9);
+    std::cout<<"is sorted? "<< mylist->isSorted() <<"\n";
     mylist->display();
-    mylist->addAtIndex(4,2);
-    std::cout<<"After removal: "<<"\n";
+    mylist->sort();
+    std::cout<<"After sort: "<<"\n";
     mylist->display();
-    //std::cout<<"Retrieved: "<< mylist->getIndex(3)<<"\n";
+    //std::cout<<"After removal: "<<"\n";
+    //mylist->display();
 
     /*
     std::cout<<"Add value to end: "<<"\n";
